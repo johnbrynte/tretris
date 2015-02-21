@@ -1,0 +1,126 @@
+<!DOCTYPE>
+<html>
+<head>
+    <title>TRETRIS</title>
+
+    <link href='http://fonts.googleapis.com/css?family=Press+Start+2P' rel='stylesheet' type='text/css'>
+    <link href="style.css" rel="stylesheet" />
+
+    <script type="x-shader/x-vertex" id="v-shader-pixel">
+    varying vec2 vuv;
+    // this vertex shader is from AMD RenderMonkey
+    void main(void)
+    {
+       gl_Position = vec4( position.xy, 0.0, 1.0 );
+       gl_Position = sign( gl_Position );
+       
+       // Texture coordinate for screen aligned (in correct range):
+       vuv = (vec2( gl_Position.x, gl_Position.y ) + vec2( 1.0 ) ) / vec2( 2.0 );
+    }
+    </script>
+    <script type="x-shader/x-vertex" id="f-shader-pixel">
+    // This texture should hold the image to blur.
+    // This can perhaps be a previous rendered scene.
+    uniform sampler2D tDiffuse;
+    // Color palette
+    uniform vec3 uColorPalette[7];
+     
+    // texture coordinates passed from the vertex shader
+    varying vec2 vuv;
+     
+    void main(void)
+    {
+        float width = 120.0;
+        float height = 144.0;
+
+        vec2 pixel = vec2((floor(vuv.x*width)+0.5)/width, (floor(vuv.y*height)+0.5)/height);
+        vec3 color = texture2D(tDiffuse, pixel).xyz;
+
+        // find the two closest colors
+        //float min1 = sqrt(3.0*255.0*255.0);
+        //float min2 = min1;
+        float min = -1.0;
+        vec3 closest1;
+        vec3 closest2;
+        float d;
+        for (int i=0; i < 7; i++) {
+            d = length(color-uColorPalette[i]/255.0);
+            if (min < 0.0 || d < min) {
+                closest2 = closest1;
+                closest1 = uColorPalette[i]/255.0;
+                if (min < 0.0) {
+                    closest2 = closest1;
+                }
+                min = d;
+            } else {
+                //closest2 = uColorPalette[i]/255.0;
+            }
+        }
+
+        vec3 range = closest2-closest1;
+        vec3 dir = color-closest1;
+        if (dot(dir, range) <= 0.0 || length(dir) < length(range)/3.0) {
+            color = closest1;
+        } else {
+            float x = floor(vuv.x*width);
+            x = x/2.0-floor(x/2.0);
+            float y = floor(vuv.y*height);
+            y = y/2.0-floor(y/2.0);
+            if ((x == 0.0 && y == 0.0) || (x != 0.0 && y != 0.0)) {
+                color = closest1;
+            } else {
+                color = closest2;
+            }
+        }
+
+        gl_FragColor = vec4(color, 1.0);
+        //gl_FragColor = texture2D(tDiffuse, pixel);
+    } 
+    </script>
+    <script src="js/lib/three.min.js"></script>
+    <script src="js/lib/renderers/CanvasRenderer.js"></script>
+    <script src="js/lib/renderers/Projector.js"></script>
+    <script src="js/PixelShader.js"></script>
+    <script src="js/lib/shaders/CopyShader.js"></script>
+    <script src="js/lib/postprocessing/MaskPass.js"></script>
+    <script src="js/lib/postprocessing/RenderPass.js"></script>
+    <script src="js/lib/postprocessing/ShaderPass.js"></script>
+    <script src="js/lib/postprocessing/EffectComposer.js"></script>
+    <script src="js/timer.js"></script>
+</head>
+<body>
+<div id="canvas-container">
+    <div class="right-menu">
+    </div>
+    <img id="thumbnail" src="img/screen.png" />
+    <img id="info-icon" src="img/info.png" />
+    <p id="text-instructions"></p>
+    <div class="info">
+        <p id="text-info">PRESS SPACE</p>
+        <p id="text-highscore-head">HIGHSCORE</p>
+        <p id="text-highscore">0</p>
+        <p id="text-next">NEXT</p>
+    </div>
+    <div class="text">
+        <h2>SCORE</h2>
+        <p id="text-score">&nbsp;</p>
+        <p>&nbsp;</p>
+        <h2>LEVEL</h2>
+        <p id="text-level">&nbsp;</p>
+        <p>&nbsp;</p>
+        <h2>LINES</h2>
+        <p id="text-lines">&nbsp;</p>
+    </div>
+    <div id="info-container">
+        <p>TRETRIS is an ordinary TETRIS where the blocks are rotated in the 3rd dimension. Wowza!</p>
+        <p><span style="display: block;">CONTROLS:</span> Rotate block <img src="img/wasd.png" /> Move block <img src="img/arrows.png" /></p>
+        <p>Made by John Turesson in 2015 for the game hackathon MiniLD #56.</p>
+    </div>
+    <div id="no-webgl">
+        <p>You need WebGL enabled in your browser in order to play TRETRIS :(</p>
+        <p>Visit <a href="https://get.webgl.org/">https://get.webgl.org/</a> for more information.</p>
+    </div>
+</div>
+<script src="js/main.js"></script>
+</body>
+</html>

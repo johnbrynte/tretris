@@ -1,0 +1,170 @@
+body {
+    margin: 0;
+    width: 100%;
+    background: #62ACBD;
+}
+
+#canvas-container {
+    position: relative;
+    width: 600px;
+    height: 720px;
+    margin: 10px auto 0 auto;
+    border: 5px solid #3E667E;
+    background: #f4e454;
+}
+
+#canvas-container .right-menu {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 200px;
+    height: 100%;
+    background: #66c3e1;
+}
+
+#canvas-container #text-instructions {
+    position: absolute;
+    left: 0;
+    top: 730px;
+    font-family: "Press Start 2P";
+    font-size: 16px;
+    padding: 0;
+    margin: 0;
+    color: #fff;
+    width: 600px;
+    text-align: center;
+}
+
+#canvas-container #thumbnail {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+#canvas-container canvas {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+#canvas-container #no-webgl {
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: #66c3e1;
+    z-index: 20;
+}
+
+#canvas-container #no-webgl p {
+    font-family: "Press Start 2P";
+    font-size: 32px;
+    text-align: left;
+    padding: 32px 32px;
+    margin: 0;
+    color: #fff;
+}
+
+#canvas-container #info-container {
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: #66c3e1;
+    z-index: 20;
+    cursor: pointer;
+}
+
+#canvas-container #info-container p {
+    font-family: "Press Start 2P";
+    font-size: 32px;
+    text-align: left;
+    padding: 32px 32px;
+    margin: 0;
+    color: #fff;
+}
+
+#canvas-container #info-icon {
+    position: absolute;
+    right: 15px;
+    bottom: 15px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+#canvas-container .info {
+    position: absolute;
+    width: 400px;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: 5;
+}
+
+#canvas-container .info p {
+    width: 390px;
+    position: absolute;
+    left: 32px;
+    font-family: "Press Start 2P";
+    font-size: 32px;
+    text-align: left;
+    padding: 0;
+    margin: 0;
+    color: #3E667E;
+}
+
+#canvas-container .info #text-gameover {
+    display: none;
+    top: 292px;
+}
+
+#canvas-container .info #text-highscore-head {
+    top: 292px;
+}
+
+#canvas-container .info #text-highscore {
+    top: 324px;
+}
+
+#canvas-container .info #text-info {
+    bottom: 204px;
+}
+
+#canvas-container .info #text-next {
+    width: 190px;
+    left: 400px;
+    top: 10px;
+    padding: 0 5px;
+    text-align: left;
+    color: #fff;
+}
+
+#canvas-container .text {
+    width: 190px;
+    position: absolute;
+    right: 0;
+    top: 292px;
+    padding: 0 5px;
+    z-index: 5;
+}
+
+#canvas-container .text p {
+    font-family: "Press Start 2P";
+    font-size: 32px;
+    padding: 0;
+    margin: 0;
+    color: #3E667E;
+}
+
+#canvas-container .text h2 {
+    font-family: "Press Start 2P";
+    font-size: 32px;
+    font-weight: normal;
+    padding: 0;
+    margin: 0;
+    color: #fff;
+}
