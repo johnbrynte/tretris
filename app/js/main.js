@@ -1,3 +1,6 @@
+   
+/* Constants */
+
 var width = 600,
 	height = 720;
 
@@ -6,10 +9,15 @@ var LEFT = 0,
 	RIGHT = 2,
 	DOWN = 3;
 
+
+/* Variables */
+
 var camera;
 var scene;
 var renderer;
-var composer;
+var composer;     
+// A composer combines different piece types of Passes
+// Like a RenderPass and ShaderPasss
 var animator;
 
 var cubeParent;
@@ -210,6 +218,10 @@ collisionMap.height = 40;
 collisionMap.ctx = collisionMap.getContext('2d');
 //document.body.appendChild(collisionMap);
 
+var textures = [];
+
+
+/* Loads the textures */
 (function() {
 	if (hasWebGL()) {
 		textures = [];
@@ -255,7 +267,26 @@ function hasWebGL() {
 	return false;
 }
 
+/**
+ * This function loads and sets up almost everything, such as:
+ *   - Highscore
+ *   - Camera
+ *   - Scene
+ *   - Lights
+ *   - Blocks
+ *   - ShadowMap
+ *   - Composers
+ *   - Meshes & Geometry
+ *   - Logotype
+ *   - Event listeners (kbd, gamepad, blur, focus, clicks)
+ *   - Probably a lot more...
+ *
+ *  NOTE: Make sure textures are loaded BEFORE calling this.
+ */
 function load() {
+
+
+	// Loads highscore from localStorage
 	var score = localStorage.getItem('tretris_highscore');
 	if (score == null)
 		score = 0;
@@ -325,7 +356,7 @@ function load() {
 	renderer.setSize(width, height);
 	document.getElementById('canvas-container').appendChild(renderer.domElement);
 
-	// postprocessing
+	// Postprocessing
 	composer = new THREE.EffectComposer(renderer);
 	composer.addPass(new THREE.RenderPass(scene, camera));
 
