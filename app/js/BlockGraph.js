@@ -93,15 +93,19 @@
         neighbours = this.check(vis, neighbours, this.north(elt), elt);
         neighbours = this.check(vis, neighbours, this.south(elt), elt);
         neighbours = this.check(vis, neighbours, this.up(elt), elt);
+        /*
         neighbours = this.check(vis, neighbours, this.up(this.west(elt)), elt);
         neighbours = this.check(vis, neighbours, this.up(this.east(elt)), elt);
         neighbours = this.check(vis, neighbours, this.up(this.north(elt)), elt);
         neighbours = this.check(vis, neighbours, this.up(this.south(elt)), elt);
+        */
         neighbours = this.check(vis, neighbours, this.down(elt), elt);
+        /*
         neighbours = this.check(vis, neighbours, this.down(this.west(elt)), elt);
         neighbours = this.check(vis, neighbours, this.down(this.east(elt)), elt);
         neighbours = this.check(vis, neighbours, this.down(this.north(elt)), elt);
         neighbours = this.check(vis, neighbours, this.down(this.south(elt)), elt);
+        */
 
         return neighbours.map(Math.round);
     };
