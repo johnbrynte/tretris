@@ -658,8 +658,9 @@ function createNewBlock() {
 	quaternionDst = new THREE.Quaternion();
 	quaternionTime = 1;
 
+	/*
 	block.matrix = copy3dMatrix(shapes[type]);
-	/*block.matrix = new Array(5);
+	block.matrix = new Array(5);
 	for (var i = 0; i < 5; i++) {
 		block.matrix[i] = new Array(5);
 		for (var j = 0; j < 5; j++) {
@@ -674,7 +675,12 @@ function createNewBlock() {
 			}
 		}
 	}
-	block.matrix[2][2][2] = 1;*/
+	block.matrix[2][2][2] = 1;
+	*/
+	// Let's try with the weird connections... :D
+	var blockGraph = new BlockGraph({x: 5, y: 5, z: 5});
+	blockGraph.getConnectedRandomBlockOfThreePoints();
+	block.matrix = blockGraph.graph;
 	block.collision = get3dMatrixCollision(block.matrix);
 
 	scene.remove(cubeParent);
@@ -1081,29 +1087,27 @@ function simulationLoop(delta) {
 	if (!paused) {
 		if (controlActive) {
 			for (var key in keydown) {
-				if (keydown[key]) {
-					if (keydownTimer[key]) {
-						keydownTimer[key] -= delta;
-						if (keydownTimer[key] <= 0) {
-							switch (key) {
-								case '37':
-									moveBlock(-1, 0);
-									keydownTimer[key] = keyIntervalTime;
-									break;
-								case '38':
-									//moveBlock(0, 1);
-									break;
-								case '39':
-									moveBlock(1, 0);
-									keydownTimer[key] = keyIntervalTime;
-									break;
-								case '40':
-									moveBlock(0, -1);
-									keydownTimer[key] = keyDropIntervalTime;
-									gamedata.score += 1;
-									updateScore();
-									break;
-							}
+				if (keydown[key] && keydownTimer[key]) {
+					keydownTimer[key] -= delta;
+					if (keydownTimer[key] <= 0) {
+						switch (key) {
+							case '37':
+								moveBlock(-1, 0);
+								keydownTimer[key] = keyIntervalTime;
+								break;
+							case '38':
+								//moveBlock(0, 1);
+								break;
+							case '39':
+								moveBlock(1, 0);
+								keydownTimer[key] = keyIntervalTime;
+								break;
+							case '40':
+								moveBlock(0, -1);
+								keydownTimer[key] = keyDropIntervalTime;
+								gamedata.score += 1;
+								updateScore();
+								break;
 						}
 					}
 				}
